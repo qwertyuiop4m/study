@@ -18,24 +18,34 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team team=new Team();
+            team.setName("teamA");
+           em.persist(team);
 
-            Member member=new Member();
-            member.setName("user1");
-            member.setCreatedBy("kim");
-            member.setCreatedDate(LocalDateTime.now());
-
-            em.persist(member);
+            Member member1=new Member();
+            member1.setName("hello1");
+            member1.setTeam(team);
+            em.persist(member1);
 
             em.flush();
             em.clear();
 
+            Member m = em.find(Member.class, member1.getId());
+
+            System.out.println("m=" + m.getTeam().getClass());
+            System.out.println("===========");
+            m.getTeam().getName();
+            System.out.println("===========");
+
             tx.commit();
         }catch (Exception e){
             tx.rollback();
+            e.printStackTrace();
         }finally {
             em.close();
         }
         
         emf.close();
     }
+    
 }
