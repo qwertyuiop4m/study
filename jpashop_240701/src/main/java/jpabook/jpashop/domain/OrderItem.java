@@ -2,6 +2,8 @@ package jpabook.jpashop.domain;
 
 import jakarta.persistence.*;
 
+import static jakarta.persistence.FetchType.*;
+
 @Entity
 public class OrderItem {
     @Id @GeneratedValue
@@ -11,11 +13,11 @@ public class OrderItem {
     private int orderPrcie;
     private int count;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "ITEM_ID")
     private Item item;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "ORDER_ID")
     private Order order;
 
