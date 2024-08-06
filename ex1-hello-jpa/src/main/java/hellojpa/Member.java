@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.*;
+
 @Entity
 public class Member extends BaseEntity{
 
@@ -20,6 +21,28 @@ public class Member extends BaseEntity{
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
+    //기간 period
+    @Embedded
+    private Period workPeriod;
+
+    //주소
+    @Embedded
+    private Address homeAddress;
+
+    @ElementCollection
+    @CollectionTable(name="FAVORITE_FOOD",joinColumns =
+    @JoinColumn(name = "MEMBER_ID"))
+    @Column(name = "FOOd_NAME")
+    private Set<String> favoriteFoods=new HashSet<>();
+
+//    @ElementCollection
+//    @CollectionTable(name="ADDRESS",joinColumns =
+//    @JoinColumn(name = "MEMBER_ID"))
+//    private List<Address> addressesHistory = new ArrayList<>();
+
+    @OneToMany(cascade =CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "MEMBER_ID")
+    private List<AddressEntity> addressesHistory=new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -45,5 +68,35 @@ public class Member extends BaseEntity{
         this.team = team;
     }
 
+    public Period getWorkPeriod() {
+        return workPeriod;
+    }
 
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public Set<String> getFavoriteFoods() {
+        return favoriteFoods;
+    }
+
+    public void setFavoriteFoods(Set<String> favoriteFoods) {
+        this.favoriteFoods = favoriteFoods;
+    }
+
+    public List<AddressEntity> getAddressesHistory() {
+        return addressesHistory;
+    }
+
+    public void setAddressesHistory(List<AddressEntity> addressesHistory) {
+        this.addressesHistory = addressesHistory;
+    }
 }
