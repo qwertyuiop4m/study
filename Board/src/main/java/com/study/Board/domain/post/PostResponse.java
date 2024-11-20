@@ -1,7 +1,10 @@
 package com.study.Board.domain.post;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
 public class PostResponse {
     private Long id;                       // PK
     private String title;                  // 제목
