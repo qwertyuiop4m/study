@@ -1,0 +1,14 @@
+package com.study.Board.domain;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class PostRequest {
+    private Long id;//pk
+    private String title;//제목
+    private String content;//내용
+    private String writer;// 작서앚
+    private boolean noticeYn;//공지글 여부
+}
