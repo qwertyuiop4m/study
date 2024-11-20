@@ -40,4 +40,23 @@ class PostMapperTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    void update(){
+        PostRequest params=new PostRequest();
+        params.setId(1L);
+        params.setTitle("1번 게시글 제목 수정");
+        params.setContent("1번 게시글 내용 수정");
+        params.setWriter("철수");
+        params.setNoticeYn(true);
+        postMapper.update(params);
+
+        PostResponse post= postMapper.findById(1L);
+        try {
+            String postJson=new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(post);
+            System.out.println(postJson);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
