@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ class PostMapperTest {
 
 
     @Test
+    @Transactional
     void save() {
         PostRequest params = new PostRequest();
         params.setTitle("1번 게시글 제목");
@@ -31,6 +33,7 @@ class PostMapperTest {
     }
 
     @Test
+    @Transactional
     void findById(){
         PostResponse post= postMapper.findById(1L);
         try {
@@ -42,6 +45,7 @@ class PostMapperTest {
     }
 
     @Test
+    @Transactional
     void update(){
         PostRequest params=new PostRequest();
         params.setId(1L);
@@ -58,5 +62,13 @@ class PostMapperTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    @Transactional
+    void delete(){
+        System.out.println("삭제 전 게시글 개수 : "+postMapper.findAll().size());
+        postMapper.deleteById(1L);
+        System.out.println("삭제 후 게시글 개수 : "+postMapper.findAll().size());
     }
 }
