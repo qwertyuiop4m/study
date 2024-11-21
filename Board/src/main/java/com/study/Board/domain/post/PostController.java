@@ -49,4 +49,10 @@ public class PostController {
         postService.UpdatePost(params);
         return "redirect:/post/list.do";
     }
+
+    @PostMapping("/post/delete.do")
+    public String deletePost(@RequestParam final Long id){
+        postService.DeletePost(id);
+        return "redirect:/post/list.do";
+    }
 }
