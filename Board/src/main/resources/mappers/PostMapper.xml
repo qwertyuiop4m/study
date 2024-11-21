@@ -15,7 +15,7 @@
         , modified_date
     </sql>
     <!-- 게시글 저장 -->
-    <insert id="save" parameterType="com.study.Board.domain.post.PostRequest">
+    <insert id="save" parameterType="com.study.Board.domain.post.PostRequest" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tb_post (
         <include refid="postColumns" />
         ) VALUES (
