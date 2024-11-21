@@ -36,4 +36,11 @@ public class PostController {
         model.addAttribute("posts", posts);
         return "post/list";
     }
+
+    @GetMapping("/post/view.do")
+    public String openPostView(@RequestParam final Long id,Model model){
+        PostResponse post=postService.findPostById(id);
+        model.addAttribute("post",post);
+        return "post/view"
+    }
 }
