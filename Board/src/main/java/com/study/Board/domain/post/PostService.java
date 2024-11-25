@@ -62,7 +62,7 @@ public class PostService {
      * @param params -search conditions
      * @return 게시글 리스트
      */
-
+    @Transactional
     public List<PostResponse> findAllPost(final SearchDto params){
         return postMapper.findAll(params);
     }
