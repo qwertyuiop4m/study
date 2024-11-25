@@ -1,5 +1,6 @@
 package com.study.Board.domain.post;
 
+import com.study.Board.common.dto.SearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,10 +59,11 @@ public class PostService {
 
     /**
      * 게시글 리스트 조회
+     * @param params -search conditions
      * @return 게시글 리스트
      */
     @Transactional
-    public List<PostResponse> findAllPost(){
-        return postMapper.findAll();
+    public List<PostResponse> findAllPost(final SearchDto params){
+        return postMapper.findAll(params);
     }
 }
