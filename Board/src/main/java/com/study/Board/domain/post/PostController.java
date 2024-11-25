@@ -1,5 +1,6 @@
 package com.study.Board.domain.post;
 
+import com.study.Board.common.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,5 +55,10 @@ public class PostController {
     public String deletePost(@RequestParam final Long id){
         postService.DeletePost(id);
         return "redirect:/post/list.do";
+    }
+
+    private String showMessageAndRedirect(final MessageDto params,Model model){
+        model.addAttribute("params",params);
+        return "common/messageRedirect";
     }
 }
