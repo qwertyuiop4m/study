@@ -2,13 +2,14 @@ package com.study.Board.interecptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+
+@Slf4j
 public class LoggerInterceptor implements HandlerInterceptor {
-    private static final Logger log=LoggerFactory.getLogger(LoggerInterceptor.class);
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.debug("===============================================");
@@ -20,8 +21,8 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        log.debug("==================== END ======================");
         log.debug("===============================================");
+        log.debug("==================== END ======================");
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
 }
