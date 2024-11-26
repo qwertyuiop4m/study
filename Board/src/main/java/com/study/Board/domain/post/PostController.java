@@ -3,6 +3,7 @@ package com.study.Board.domain.post;
 import com.study.Board.common.dto.MessageDto;
 import com.study.Board.common.dto.SearchDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class PostController {
 
     private final PostService postService;
@@ -32,8 +34,8 @@ public class PostController {
     }
 
     @GetMapping("/post/list.do")
-    public String openPostList(@ModelAttribute("params") final SearchDto params, Model model){
-        List<PostResponse> posts=postService.findAllPost(params);
+    public String openPostList(@ModelAttribute("params") final SearchDto params, Model model) {
+        List<PostResponse> posts = postService.findAllPost(params);
         model.addAttribute("posts", posts);
         return "post/list";
     }
