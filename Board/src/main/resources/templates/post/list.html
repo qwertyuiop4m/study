@@ -204,6 +204,30 @@
                 location.href = location.pathname + '?' + new URLSearchParams(queryParams).toString();
             }
 
+                // 페이지가 로드되었을 때, 딱 한 번만 함수를 실행
+                window.onload = () => {
+                    setQueryStringParams();
+
+                    findAllPost();
+                }
+
+
+                // 쿼리 스트링 파라미터 셋팅
+                function setQueryStringParams() {
+
+                    if ( !location.search ) {
+                        return false;
+                    }
+
+                    const form = document.getElementById('searchForm');
+
+                    new URLSearchParams(location.search).forEach((value, key) => {
+                        if (form[key]) {
+                            form[key].value = value;
+                        }
+                    })
+                }
+
         /*]]>*/
     </script>
 </th:block>
