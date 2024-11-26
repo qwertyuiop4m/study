@@ -9,6 +9,6 @@ public class PostRequest {
     private Long id;//pk
     private String title;//제목
     private String content;//내용
-    private String writer;// 작서앚
+    private String writer;// 작성자
     private boolean noticeYn;//공지글 여부
 }
