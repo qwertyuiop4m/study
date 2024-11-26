@@ -2,6 +2,7 @@ package com.study.Board.domain.post;
 
 import com.study.Board.common.dto.MessageDto;
 import com.study.Board.common.dto.SearchDto;
+import com.study.Board.common.paging.PagingResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -35,8 +36,8 @@ public class PostController {
 
     @GetMapping("/post/list.do")
     public String openPostList(@ModelAttribute("params") final SearchDto params, Model model) {
-        List<PostResponse> posts = postService.findAllPost(params);
-        model.addAttribute("posts", posts);
+        PagingResponse<PostResponse> response = postService.findAllPost(params);
+        model.addAttribute("response", response);
         return "post/list";
     }
 
