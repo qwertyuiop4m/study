@@ -59,7 +59,7 @@
             </form>
             <p class="btn_set">
                 <button type="button" id="saveBtn" onclick="savePost();" class="btns btn_st3 btn_mid">저장</button>
-                <a th:href="@{/post/list.do}" class="btns btn_bdr3 btn_mid">뒤로</a>
+                <button type="button" onclick="goListPage();" class="btns btn_bdr3 btn_mid">뒤로</button>
             </p>
         </section>
     </div> <!--/* .content */-->
@@ -70,7 +70,7 @@
         /*<![CDATA[*/
 
             window.onload = () => {
-                initCreatedDate();
+                renderPostInfo();
             }
 
             // 게시글 상세정보 렌더링
@@ -108,10 +108,24 @@
                     isValid(fields[i], fieldNames[i]);
                 }
 
+                new URLSearchParams(location.search).forEach((value, key) => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    form.append(input);
+                })
+
                 document.getElementById('saveBtn').disabled = true;
                 form.noticeYn.value = form.isNotice.checked;
                 form.action = [[ ${post == null} ]] ? '/post/save.do' : '/post/update.do';
                 form.submit();
+            }
+            // 게시글 리스트 페이지로 이동
+            function goListPage() {
+                const queryString = new URLSearchParams(location.search);
+                queryString.delete('id');
+                location.href = '/post/list.do' + '?' + queryString.toString();
             }
 
         /*]]>*/
