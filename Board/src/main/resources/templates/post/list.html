@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/basic">
 <th:block layout:fragment="title">
     <title>리스트 페이지</title>
 </th:block>
@@ -10,55 +11,61 @@
         <p class="path"><strong>현재 위치 :</strong> <span>게시판 관리</span> <span>리스트형</span> <span>리스트</span></p>
     </div>
 
-    <div class="content">
-        <section>
-            <!--/* 검색 */-->
-            <div class="search_box">
-                <form id="searchForm" onsubmit="return false;" autocomplete="off">
-                    <div class="sch_group fl">
-                        <select title="검색 유형 선택">
-                            <option value="">전체 검색</option>
-                            <option value="">제목</option>
-                            <option value="">내용</option>
-                        </select>
-                        <input type="text" placeholder="키워드를 입력해 주세요." title="키워드 입력"/>
-                        <button type="button" class="bt_search"><i class="fas fa-search"></i><span class="skip_info">검색</span></button>
-                    </div>
-                </form>
-            </div>
+    <section>
+        <!--/* 검색 */-->
+        <div class="search_box">
+            <form id="searchForm" onsubmit="return false;" autocomplete="off">
+                <div class="sch_group fl">
+                    <select id="searchType" name="searchType" title="검색 유형 선택">
+                        <option value="">전체 검색</option>
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="writer">작성자</option>
+                    </select>
+                    <input type="text" id="keyword" name="keyword" placeholder="키워드를 입력해 주세요." title="키워드 입력"/>
+                    <button type="button" class="bt_search" onclick="movePage(1);"><i
+                            class="fas fa-search"></i><span class="skip_info">검색</span></button>
+                </div>
+            </form>
+        </div>
 
-            <!--/* 리스트 */-->
-            <table class="tb tb_col">
-                <colgroup>
-                    <col style="width:50px;"/><col style="width:7.5%;"/><col style="width:auto;"/><col style="width:10%;"/><col style="width:15%;"/><col style="width:7.5%;"/>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th scope="col"><input type="checkbox"/></th>
-                    <th scope="col">번호</th>
-                    <th scope="col">제목</th>
-                    <th scope="col">작성자</th>
-                    <th scope="col">등록일</th>
-                    <th scope="col">조회</th>
-                </tr>
-                </thead>
+        <!--/* 리스트 */-->
+    <table class="tb tb_col">
+        <colgroup>
+            <col style="width:50px;"/>
+            <col style="width:7.5%;"/>
+            <col style="width:auto;"/>
+            <col style="width:10%;"/>
+            <col style="width:15%;"/>
+            <col style="width:7.5%;"/>
+        </colgroup>
+        <thead>
+        <tr>
+            <th scope="col"><input type="checkbox"/></th>
+            <th scope="col">번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">등록일</th>
+            <th scope="col">조회</th>
+        </tr>
+        </thead>
 
-                <!--/* 리스트 데이터 렌더링 영역 */-->
-                <tbody id="list">
+        <!--/* 리스트 데이터 렌더링 영역 */-->
+        <tbody id="list">
 
-                </tbody>
-            </table>
+        </tbody>
+    </table>
 
-            <!--/* 페이지네이션 렌더링 영역 */-->
-            <div class="paging">
+    <!--/* 페이지네이션 렌더링 영역 */-->
+    <div class="paging">
 
-            </div>
+    </div>
 
-            <!--/* 버튼 */-->
-            <p class="btn_set tr">
-                <a th:href="@{/post/write.do}" class="btns btn_st3 btn_mid">글쓰기</a>
-            </p>
-        </section>
+    <!--/* 버튼 */-->
+    <p class="btn_set tr">
+        <a th:href="@{/post/write.do}" class="btns btn_st3 btn_mid">글쓰기</a>
+    </p>
+    </section>
     </div> <!--/* .content */-->
 </th:block>
 <th:block layout:fragment="script">
@@ -173,18 +180,23 @@
             }
 
 
-            // 페이지 이동
+             // 페이지 이동
             function movePage(page) {
 
-                // 1. drawPage( )의 각 버튼에 선언된 onclick 이벤트를 통해 전달받는 page(페이지 번호)를 기준으로 객체 생성
+                // 1. 검색 폼
+                const form = document.getElementById('searchForm');
+
+                // 2. drawPage( )의 각 버튼에 선언된 onclick 이벤트를 통해 전달받는 page(페이지 번호)를 기준으로 객체 생성
                 const queryParams = {
                     page: (page) ? page : 1,
                     recordSize: 10,
-                    pageSize: 10
+                    pageSize: 10,
+                    searchType: form.searchType.value,
+                    keyword: form.keyword.value
                 }
 
                 /*
-                 * 2. location.pathname : 리스트 페이지의 URI("/post/list.do")를 의미
+                 * 3. location.pathname : 리스트 페이지의 URI("/post/list.do")를 의미
                  *    new URLSearchParams(queryParams).toString() : queryParams의 모든 프로퍼티(key-value)를 쿼리 스트링으로 변환
                  *    URI + 쿼리 스트링에 해당하는 주소로 이동
                  *    (해당 함수가 리턴해주는 값을 브라우저 콘솔(console)에 찍어보시면 쉽게 이해하실 수 있습니다.)
