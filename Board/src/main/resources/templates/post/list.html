@@ -72,11 +72,28 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
 
+            // 페이지가 로드되었을 때, 딱 한 번만 함수를 실행
             window.onload = () => {
-                // 페이지가 로드되었을 때, 딱 한 번만 함수를 실행
-                findAllPost();
+                  setQueryStringParams();
+
+                  findAllPost();
             }
 
+            // 쿼리 스트링 파라미터 셋팅
+            function setQueryStringParams() {
+
+                    if ( !location.search ) {
+                        return false;
+                    }
+
+                    const form = document.getElementById('searchForm');
+
+                    new URLSearchParams(location.search).forEach((value, key) => {
+                        if (form[key]) {
+                            form[key].value = value;
+                        }
+                    })
+            }
 
             // 게시글 리스트 조회
             function findAllPost() {
@@ -122,7 +139,7 @@
                         <tr>
                             <td><input type="checkbox" /></td>
                             <td>${row.noticeYn === false ? num-- : '공지'}</td>
-                            <td class="tl"><a href="/post/view.do?id=${row.id}">${row.title}</a></td>
+                            <td class="tl"><a href="javascript:void(0);" onclick="goViewPage(${row.id});">${row.title}</a></td>
                             <td>${row.writer}</td>
                             <td>${dayjs(row.createdDate).format('YYYY-MM-DD HH:mm')}</td>
                             <td>${row.viewCnt}</td>
@@ -204,30 +221,11 @@
                 location.href = location.pathname + '?' + new URLSearchParams(queryParams).toString();
             }
 
-                // 페이지가 로드되었을 때, 딱 한 번만 함수를 실행
-                window.onload = () => {
-                    setQueryStringParams();
-
-                    findAllPost();
-                }
-
-
-                // 쿼리 스트링 파라미터 셋팅
-                function setQueryStringParams() {
-
-                    if ( !location.search ) {
-                        return false;
-                    }
-
-                    const form = document.getElementById('searchForm');
-
-                    new URLSearchParams(location.search).forEach((value, key) => {
-                        if (form[key]) {
-                            form[key].value = value;
-                        }
-                    })
-                }
-
+            // 게시글 상세 페이지로 이동
+            function goViewPage(id) {
+                const queryString = (location.search) ? location.search + `&id=${id}` : `?id=${id}`;
+                location.href = '/post/view.do' + queryString;
+            }
         /*]]>*/
     </script>
 </th:block>
