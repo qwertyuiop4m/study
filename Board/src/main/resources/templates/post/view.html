@@ -60,13 +60,19 @@
                     </div>
                 </fieldset>
             </div>
+            <!--/* 댓글 렌더링 영역 */-->
+            <div class="cm_list">
+
+            </div>
         </section>
     </div> <!--/* .content */-->
 </th:block>
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         /*<![CDATA[*/
-
+                window.onload = () => {
+                    findAllComment();
+                }
                 // 게시글 삭제
                 function deletePost() {
 
@@ -117,7 +123,7 @@
             }
 
 
-            // 댓글 저장
+             // 댓글 저장
             function saveComment() {
 
                 const content = document.getElementById('content');
@@ -138,7 +144,57 @@
                     data : JSON.stringify(params),
                     async : false,
                     success : function (response) {
-                        console.log(response);
+                        alert('저장되었습니다.');
+                        content.value = '';
+                        document.getElementById('counter').innerText = '0/300자';
+                        findAllComment();
+                    },
+                    error : function (request, status, error) {
+                        console.log(error)
+                    }
+                })
+            }
+             // 전체 댓글 조회
+            function findAllComment() {
+
+                const postId = [[ ${post.id} ]];
+
+                $.ajax({
+                    url : `/posts/${postId}/comments`,
+                    type : 'get',
+                    dataType : 'json',
+                    async : false,
+                    success : function (response) {
+
+                        // 1. 조회된 데이터가 없는 경우
+                        if ( !response.length ) {
+                            document.querySelector('.cm_list').innerHTML = '<div class="cm_none"><p>등록된 댓글이 없습니다.</p></div>';
+                            return false;
+                        }
+
+                        // 2. 렌더링 할 HTML을 저장할 변수
+                        let commentHtml = '';
+
+                        // 3. 댓글 HTML 추가
+                        response.forEach(row => {
+                            commentHtml += `
+                                <div>
+                                    <span class="writer_img"><img src="/images/default_profile.png" width="30" height="30" alt="기본 프로필 이미지"/></span>
+                                    <p class="writer">
+                                        <em>${row.writer}</em>
+                                        <span class="date">${dayjs(row.createdDate).format('YYYY-MM-DD HH:mm')}</span>
+                                    </p>
+                                    <div class="cont"><div class="txt_con">${row.content}</div></div>
+                                    <p class="func_btns">
+                                        <button type="button" class="btns"><span class="icons icon_modify">수정</span></button>
+                                        <button type="button" class="btns"><span class="icons icon_del">삭제</span></button>
+                                    </p>
+                                </div>
+                            `;
+                        })
+
+                        // 4. class가 "cm_list"인 요소를 찾아 HTML을 렌더링
+                        document.querySelector('.cm_list').innerHTML = commentHtml;
                     },
                     error : function (request, status, error) {
                         console.log(error)
