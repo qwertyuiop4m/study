@@ -35,4 +35,9 @@ public class CommentApiController {
         commentService.updateComment(params);
         return commentService.findCommentById(id);
     }
+
+    @DeleteMapping("/posts/{postId}/comments/{id}")
+    public Long deleteComment(@PathVariable final Long postId,@PathVariable final Long id){
+        return commentService.deleteComment(id);
+    }
 }
