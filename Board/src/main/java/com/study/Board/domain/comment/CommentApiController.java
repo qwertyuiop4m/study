@@ -23,4 +23,16 @@ public class CommentApiController {
     public List<CommentResponse> findAllComment(@PathVariable final Long postId){
         return commentService.findAllComment(postId);
     }
+
+    //댓글 상세정보 조회
+    @GetMapping("/posts/{postId}/comments/{id}")
+    public CommentResponse findCommentById(@PathVariable final  Long postId,@PathVariable final Long id){
+        return commentService.findCommentById(id);
+    }
+
+    @PatchMapping("/posts/{postId}/comments/{id}")
+    public CommentResponse updateComment(@PathVariable final Long postId,@PathVariable final Long id,@RequestBody final CommentRequest params){
+        commentService.updateComment(params);
+        return commentService.findCommentById(id);
+    }
 }
