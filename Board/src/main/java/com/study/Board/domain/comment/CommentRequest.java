@@ -3,8 +3,10 @@ package com.study.Board.domain.comment;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentRequest {
     private Long id; //댓글 번호(Pk)
