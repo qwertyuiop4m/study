@@ -1,4 +1,4 @@
-package 단계별로_풀기.조합론;
+package 백준.단계별로_풀기.조합론;
 
 
 import java.util.Scanner;
