@@ -39,4 +39,16 @@ public class MemberService {
     public int countMemberByLoginId(final String loginId) {
         return memberMapper.countByLoginId(loginId);
     }
+
+    public MemberResponse login(final String loginId, final String password) {
+        MemberResponse member = findMemberByLongId(loginId);
+        String encodePassword=(member==null?"":member.getPassword());
+
+        if (member==null||passwordEncoder.matches(password,encodePassword)){
+            return null;
+        }
+
+        member.clearPassword();
+        return member;
+    }
 }
