@@ -1,5 +1,7 @@
 package com.study.Board.domain.member;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +45,26 @@ public class MemberController {
     @ResponseBody
     public int countMemberByLoginId(@RequestParam final String loginId) {
         return memberService.countMemberByLoginId(loginId);
+    }
+
+    @PostMapping("/login")
+    @ResponseBody
+    public MemberResponse login(HttpServletRequest request) {
+        String loginId = request.getParameter("loginId");
+        String password = request.getParameter("password");
+        MemberResponse member=memberService.login(loginId, password);
+
+        if(member!=null){
+            HttpSession session = request.getSession();
+            session.setAttribute("loginMember", member);
+            session.setMaxInactiveInterval(60*30);
+        }
+        return member;
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login.do";
     }
 }
