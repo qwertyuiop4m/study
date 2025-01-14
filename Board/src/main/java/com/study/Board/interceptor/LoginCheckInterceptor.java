@@ -1,4 +1,4 @@
-package com.study.Board.interecptor;
+package com.study.Board.interceptor;
 
 import com.study.Board.domain.member.MemberResponse;
 import jakarta.servlet.http.HttpServletRequest;
