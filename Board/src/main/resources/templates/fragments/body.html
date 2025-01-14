@@ -5,9 +5,13 @@
     <header>
         <div class="head">
             <h1>게시판 프로젝트</h1>
-            <div class="top_menu">
-                <div class="login_user"><strong><i class="far fa-user-circle"></i> 창우</strong>님 반갑습니다.</div>
-                <div class="logout"><button type="button"><span class="skip_info">로그아웃</span><i class="fas fa-sign-out-alt"></i></button></div>
+            <div th:if="${session.loginMember != null}" class="top_menu">
+                <div class="login_user"><strong><i class="far fa-user-circle"></i> [[ ${session.loginMember.name} ]]</strong>님 반갑습니다.</div>
+                <div class="logout">
+                    <form action="/logout" method="post">
+                        <button type="submit"><span class="skip_info">로그아웃</span><i class="fas fa-sign-out-alt"></i></button>
+                    </form>
+                </div>
             </div>
         </div>
     </header>
