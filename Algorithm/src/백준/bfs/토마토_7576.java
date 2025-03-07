@@ -11,7 +11,6 @@ public class 토마토_7576 {
   static int N;
   static int M;
   static int[][] tomato;
-  static int count=0;
   static int[] dx={-1,0,1,0};
   static int[] dy={0,-1,0,1};
   static Queue<int[]> q=new LinkedList<int[]>();
