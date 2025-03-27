@@ -7,17 +7,15 @@ import java.io.InputStreamReader;
 public class 별찍기_2447 {
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringBuilder sb=new StringBuilder();
     int n=Integer.parseInt(br.readLine());
     for(int i=0;i<n;i++){
       for (int j=0;j<n;j++){
-        if(isBlank(i,j)){
-          System.out.print(" ");
-        }else{
-          System.out.print("*");
-        }
+        sb.append(isBlank(i,j)?' ':'*');
       }
-      System.out.println();
+      sb.append('\n');
     }
+    System.out.println(sb);
   }
 
   private static boolean isBlank(int i, int j) {
