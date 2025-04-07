@@ -1,4 +1,4 @@
-package 백준;
+package 백준.유형익히기;
 
 import java.io.BufferedReader;
 import java.io.IOException;
