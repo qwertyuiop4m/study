@@ -3,6 +3,8 @@ package hello.jdbc.connection;
 import static hello.jdbc.connection.ConnectionConst.*;
 import static hello.jdbc.connection.ConnectionConst.PASSWORD;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -26,6 +28,18 @@ public class ConnectionTest {
   void dataSourceDriverManager() throws SQLException {
     DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME,
         PASSWORD);
+    useDataSource(dataSource);
+  }
+
+  @Test
+  void dataSourceConnectionPool() throws SQLException, InterruptedException {
+    HikariDataSource dataSource = new HikariDataSource();
+    dataSource.setJdbcUrl(URL);
+    dataSource.setUsername(USERNAME);
+    dataSource.setPassword(PASSWORD);
+    dataSource.setMaximumPoolSize(10);
+    dataSource.setPoolName("MyPool");
+
     useDataSource(dataSource);
   }
 
