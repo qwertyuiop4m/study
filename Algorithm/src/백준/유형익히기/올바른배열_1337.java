@@ -10,7 +10,6 @@ public class 올바른배열_1337 {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int n=Integer.parseInt(br.readLine());
     int[] arr = new int[n];
-    int result=0;
     for (int i = 0; i < n; i++) {
       arr[i] = Integer.parseInt(br.readLine());
     }
